@@ -1,6 +1,5 @@
-#!/usr/bin/python
-import sys
-import os
+#!/usr/bin/env python2.7
+import sys, os
 import argparse
 
 _defaultTestFile = 'test.txt'
