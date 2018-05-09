@@ -5,17 +5,25 @@ import argparse
 
 _defaultTestFile = 'test.txt'
 
-def insertionSort(unsortedList):
-	i = 1
-	while i < len(unsortedList):
-		j = i
-		current = unsortedList[i]
-		while j > 0 and current < unsortedList[j-1]:
-			unsortedList[j] = unsortedList[j-1]
-			j-=1
-		unsortedList[j] = current
-		i+=1
-	return unsortedList
+def mergeSort(unsortedList):
+	if len(unsortedList) <= 1:
+		return unsortedList
+	else:
+		mid = len(unsortedList)/2
+		return merge(mergeSort(unsortedList[:mid]),mergeSort(unsortedList[mid:]))
+
+def merge(listA, listB):
+	i,j = 0,0
+	res = []
+	while (i < len(listA) and j < len(listB)):
+		if listA[i] < listB[j]:
+			res.append(listA[i])
+			i+=1
+		else:
+			res.append(listB[j])
+			j+=1
+	res.extend(listA[i:len(listA)]+listB[j:len(listB)])
+	return res
 
 def translateFile(file = _defaultTestFile):
 	if not os.path.isfile(file):
@@ -28,7 +36,7 @@ def translateFile(file = _defaultTestFile):
 	return res
 
 def main():
-	#python insertion_sort.py -f test.txt
+	#python merge_sort.py -f test.txt
 	parser = argparse.ArgumentParser(description='provide test file')
 	parser.add_argument('--file', '-f', type=str, help='name of the file containing test cases', default=_defaultTestFile)
 	args = parser.parse_args()
@@ -36,7 +44,7 @@ def main():
 	testCases = translateFile(args.file)
 	results = []
 	for testCase in testCases:
-		results.append(insertionSort(testCase))
+		results.append(mergeSort(testCase))
 	for result in results:
 		print result
 
