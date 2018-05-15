@@ -19,12 +19,12 @@ class BST:
 			self.insertNode(self.root,value)
 
 	def insertNode(self, curNode, value):
-		if curNode.value <= value:
+		if value <= curNode.value:
 			if curNode.left == None:
 				curNode.left = Node(value)
 			else:
 				self.insertNode(curNode.left, value)
-		elif curNode.value > value:
+		elif value > curNode.value:
 			if curNode.right == None:
 				curNode.right = Node(value)
 			else:
@@ -33,9 +33,9 @@ class BST:
 	def inOrderList(self, node, sortedList):
 		if node == None:
 			return
-		self.inOrderList(node.right, sortedList)
-		sortedList.append(node.value)
 		self.inOrderList(node.left, sortedList)
+		sortedList.append(node.value)
+		self.inOrderList(node.right, sortedList)
 
 	def sortedList(self):
 		result = []
