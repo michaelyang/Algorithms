@@ -10,6 +10,7 @@ def avltreeSort(unsortedList):
 	avltree = AVLTree()
 	for a in unsortedList:
 		avltree.insert(a)
+	avltree.display()
 	return avltree.sortedList()
 
 def translateFile(file = _defaultTestFile):

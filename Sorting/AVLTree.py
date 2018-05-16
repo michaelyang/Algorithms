@@ -4,62 +4,89 @@ class Node:
 		self.value = value
 		self.left = None
 		self.right = None
-		self.height = 0
-		self.parent = None
 
 class AVLTree:
 	def __init__(self):
-		self.root = None
-
-	def setRoot(self, value):
-		self.root = Node(value)
+		self.node = None
+		self.height = -1
 
 	def insert(self, value):
-		if self.root == None:
-			self.setRoot(value)
+		if self.node == None:
+			self.node = Node(value)
+			self.node.left = AVLTree()
+			self.node.right = AVLTree()
+		elif value <= self.node.value:
+			self.node.left.insert(value)
+		elif value > self.node.value:
+			self.node.right.insert(value)
+
+		self.height = 1 + max(self.node.left.height, self.node.right.height)
+		
+		self.balance()
+
+	def balance(self):
+		balance = self.node.left.height - self.node.right.height
+		if self.node.left.node != None:
+			lbalance = self.node.left.node.left.height - self.node.left.node.right.height
 		else:
-			self.insertNode(self.root,value)
-
-	def insertNode(self, curNode, value):
-		if curNode.value <= value:
-			if curNode.left == None:
-				curNode.left = Node(value)
-			else:
-				self.insertNode(curNode.left, value)
-		elif curNode.value > value:
-			if curNode.right == None:
-				curNode.right = Node(value)
-			else:
-				self.insertNode(curNode.right, value)
-		curNode.height = 1 + max(self.getHeight(curNode.left), self.getHeight(curNode.right))
-
-
-	def getHeight(self, node):
-		if not node:
-			return 0
+			lbalance = 0
+		if self.node.right.node != None:
+			rbalance = self.node.right.node.left.height - self.node.right.node.right.height
 		else:
-			return node.height
+			rbalance = 0
+		if balance > 1 and lbalance > 0:
+			self.rightRotate()
+		elif balance > 1 and lbalance < 0:
+			self.node.left.leftRotate()
+			self.rightRotate()
+		elif balance < 1 and rbalance < 0:
+			self.leftRotate()
+		elif balance < 1 and rbalance > 0:
+			self.node.right.rightRotate()
+			self.leftRotate()
 
-	def getHeight(self, node):
+	def leftRotate(self):
+		newNode = self.node.right.node
+		newLeftNode = self.node
+		newLeftNode.right.node = newNode.left.node
+		newNode.left.node = newLeftNode
+		self.node = newNode
+		self.updateHeights()
 
+	def rightRotate(self):
+		newNode = self.node.left.node
+		newRightNode = self.node
+		newRightNode.left.node = newNode.right.node
+		newNode.right.node = newRightNode
+		self.node = newNode
+		self.updateHeights()
 
-	def leftRotate(self, node):
-		newRoot = node.rightChild
-		newLeftChild = node
-		if node.leftChild is not None:
-			 newLeftChild.rightChild = node.leftChild
+	def updateHeights(self):
+		if self.node == None:
+			self.height = -1
+		else:
+			if self.node.left != None:
+				self.node.left.updateHeights()
+			if self.node.right != None:
+				self.node.right.updateHeights()
+			self.height = 1 + max(self.node.left.height, self.node.right.height)
 
-
-
-
-	def inOrderList(self, node, sortedList):
-		if node == None:
+	def inOrderList(self, sortedList):
+		if self.node == None:
 			return
-		self.inOrderList(node.right, sortedList)
-		sortedList.append(node.value)
-		self.inOrderList(node.left, sortedList)
+		self.node.left.inOrderList(sortedList)
+		sortedList.append(self.node.value)
+		self.node.right.inOrderList(sortedList)
 
 	def sortedList(self):
 		result = []
-		self.inOrderList(self.root, result)
+		self.inOrderList(result)
 		return result
+
+	def display(self, level=0, dir = ""):
+		if(self.node != None):
+			print '\t' * level, dir, self.node.value, "[h: " + str(self.height) + "]"
+			if self.node.left != None: 
+				self.node.left.display(level + 1, '/')
+			if self.node.left != None:
+				self.node.right.display(level + 1, '\\')
