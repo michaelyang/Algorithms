@@ -54,10 +54,11 @@ def main():
 	results = []
 	for testGraph in testGraphs:
 		verticies = testGraph.getVerticies()
+		print "-"*10
 		for v in verticies:
-			print v
-			print v.neighbors
+			print v.key + " : " + ', '.join(map(str,v.neighbors))
 		results.append(bfs(testGraph, verticies[0]))
+	print "--Results--"
 	for result in results:
 		print result
 
