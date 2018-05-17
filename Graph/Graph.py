@@ -9,10 +9,15 @@ class Vertex:
 
 	def getNeighbors(self):
 		return self.neighbors
+
 	def __repr__(self):
 		return self.key
+
 	def __str__(self):
 		return self.key
+
+	def __lt__(self, other):
+         return self.key < other.key
 
 class Graph:
 	def __init__(self):
@@ -21,16 +26,17 @@ class Graph:
 	def addVertex(self, key):
 		self.verticies[key] = Vertex(key)
 
-	def addEdge(self, a, b):
+	def addEdge(self, a, b, undirected = True):
 		if a not in self.verticies:
 			self.addVertex(a)
 		if b not in self.verticies:
 			self.addVertex(b)
 		self.verticies[a].addNeighbor(self.verticies[b])
-		self.verticies[b].addNeighbor(self.verticies[a])
+		if a != b and undirected:
+			self.verticies[b].addNeighbor(self.verticies[a])
 
 	def getVerticies(self):
-		return self.verticies.values()
+		return sorted(self.verticies.values())
 
 	def size(self):
 		return len(self.verticies)
