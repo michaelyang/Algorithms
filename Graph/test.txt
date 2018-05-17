@@ -1,2 +1,10 @@
 a b c d e f g h i j k
 a b, a c, a g, b d, b g, b j, b k, c f, c k, d e, d f, d g, d i, d k, e f, f k, h i, h k, i j, j k
+1 2 3 4 5
+1 1, 1 2, 1 4, 1 5, 2 2, 3 4, 4 5
+a c e j l p
+a c, a e, a j, a l, a p, c e, c j, c l, c p, e j, e l, e p, j l, j p, l p
+a b c d e
+a a, b b, c c, d d, e e
+a b c d e
+a b, a c, a d, a e, c d, c e, d d, e e

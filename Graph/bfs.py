@@ -57,11 +57,9 @@ def main():
 		for v in verticies:
 			print v
 			print v.neighbors
-		res = bfs(testGraph, verticies[0])
-		print res
-	#	results.append(sort(testCase))
-	#for result in results:
-	#	print result
+		results.append(bfs(testGraph, verticies[0]))
+	for result in results:
+		print result
 
 if __name__ == '__main__':
 	main()
