@@ -1,0 +1,2 @@
+a b c d e f g h i j k
+a b, a c, a g, b d, b g, b j, b k, c f, c k, d e, d f, d g, d i, d k, e f, f k, h i, h k, i j, j k
